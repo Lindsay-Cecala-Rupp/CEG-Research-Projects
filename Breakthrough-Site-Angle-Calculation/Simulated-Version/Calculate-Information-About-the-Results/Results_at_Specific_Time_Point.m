@@ -11,11 +11,11 @@ clear; clc; close all;
 
     % Magic Numbers:
     
-        Time_Points = 25;
+        Time_Points = 2;
         
     % Data:
 
-        Results = load('/Users/lindsayrupp/Documents/CEG Research/Breakthrough Site Angle Calculation/Stimulated Version/Results/Global_Ellipse_Results.mat');
+        Results = load('/Users/rupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Simulated-Version/Results/14-10-27-LVFW-Depth-Simulation.mat');
             Results = Results.Compiled_Ellipse_Information;
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -24,10 +24,10 @@ clear; clc; close all;
 
     for First_Index = 1:size(Results.Run, 2)
         
-        Area(First_Index, 1) = Results.Run(First_Index).QRS_Time_Point(Time_Points).Area;
-        Axis_Ratio(First_Index, 1) = Results.Run(First_Index).QRS_Time_Point(Time_Points).Axis_Ratio;
-        Angle_for_Long_Axis(First_Index, 1) = Results.Run(First_Index).QRS_Time_Point(Time_Points).Angle_for_Long_Axis;
-        Angle_for_Short_Axis(First_Index, 1) = Results.Run(First_Index).QRS_Time_Point(Time_Points).Angle_for_Short_Axis;
+        Area(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Area;
+        Axis_Ratio(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Axis_Ratio;
+        Angle_for_Long_Axis(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Angle_for_Long_Axis;
+        Angle_for_Short_Axis(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Angle_for_Short_Axis;
         
     end
     
