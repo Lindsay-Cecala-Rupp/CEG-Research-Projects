@@ -1,5 +1,5 @@
 
-% Script to Determine the Fiber Orientation at a Specific Heart Coordinate:
+% Script to Determine the Fiber Orientation for a Cylinder of Points:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -14,23 +14,21 @@ clear; clc; close all;
         Coordinate_of_Interest = [70609.0269937853, 46768.4045896411, 66518.8903804147]/1000;
         
         Number_of_Centroid_Points = 5;
+        Number_of_Surface_Points = 5;
 
     % Data:
 
         Fiber_Orientation = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.lon.txt');
-        %Fiber_Orientation = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/14-10-27_Carp_mesh.biv.lon.txt');
-        %Fiber_Orientation = readmatrix('/Users/rupp/Documents/Fiber-Orientation-Calculation/Simulated-Version/13-11-05-Data/13-11-05_Carp_Mesh.biv.lon.txt');
             Fiber_Orientation = Fiber_Orientation(:, 1:3); % NOTE: First Three Columns Correspond to Longitudinal Vectors, i.e., the Fiber Orientation.
 
         Points = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.pts.txt');
-        %Points = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/14-10-27_Carp_mesh.biv.pts.txt');
-        %Points = readmatrix('/Users/rupp/Documents/Fiber-Orientation-Calculation/Simulated-Version/13-11-05-Data/13-11-05_Carp_Mesh.biv.pts.txt');
             Points = Points/1000; % Scale Factor for CARP Node Locations of Ventricles
 
         Elements = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.elem.txt');
-        %Elements = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/14-10-27_Carp_mesh.biv.elem.txt');
-        %Elements = readmatrix('/Users/rupp/Documents/Fiber-Orientation-Calculation/Simulated-Version/13-11-05-Data/13-11-05_Carp_Mesh.biv.elem.txt');
             Elements = Elements + 1; % To Make One Based Nodes that Make up "Face"
+            
+        Heart_Surface = load('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/14-10-27-CARP-Heart-Surface.mat');
+            Heart_Surface = Heart_Surface.scirunfield.node';
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -54,7 +52,7 @@ clear; clc; close all;
 
 % Find the Designated Number of Centroid Points Near the Point of Interest:
 
-    Desired_Index = zeros(Number_of_Centroid_Points, 1);
+    Stimulation_Site_Index_Values = zeros(Number_of_Centroid_Points, 1);
 
     Adjusted_Element_Centroid = Element_Centroid;
 
@@ -64,29 +62,45 @@ clear; clc; close all;
         
         Adjusted_Element_Centroid(Closest_Position_Index, :) = Adjusted_Element_Centroid(Closest_Position_Index, :) * 5000;
         
-        Desired_Index(First_Index, 1) = Closest_Position_Index;
+        Stimulation_Site_Index_Values(First_Index, 1) = Closest_Position_Index;
           
     end
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Calculate the Average Fiber Orientation at the Desired Centroid Points:
+% Take the Average of the Determined Points and Use as Stimulation Site:
 
-    Desired_Fiber_Orientation = zeros(Number_of_Centroid_Points, 3);
-
-    for First_Index = 1:Number_of_Centroid_Points
-        
-        Temporary_Index_Number = Desired_Index(First_Index, 1);
-        
-        Temporary_Fiber_Orientation(1, :) = Fiber_Orientation(Temporary_Index_Number, :);
-        
-        Desired_Fiber_Orientation(First_Index, 1) = Temporary_Fiber_Orientation(1, 1);
-        Desired_Fiber_Orientation(First_Index, 2) = Temporary_Fiber_Orientation(1, 2);
-        Desired_Fiber_Orientation(First_Index, 3) = Temporary_Fiber_Orientation(1, 3);
-        
-    end
-    
-    Mean_Fiber_Orientation = [mean(Desired_Fiber_Orientation(:, 1)), mean(Desired_Fiber_Orientation(:, 2)), mean(Desired_Fiber_Orientation(:, 3))];
-    STD_Fiber_Orientation = [std(Desired_Fiber_Orientation(:, 1)), std(Desired_Fiber_Orientation(:, 2)), std(Desired_Fiber_Orientation(:, 3))];
+    Stimulation_Site(1, 1) = mean(Element_Centroid(Stimulation_Site_Index_Values, 1));
+    Stimulation_Site(1, 2) = mean(Element_Centroid(Stimulation_Site_Index_Values, 2));
+    Stimulation_Site(1, 3) = mean(Element_Centroid(Stimulation_Site_Index_Values, 3));
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Determine Point of Surface that is Closest to the Normal:
+
+    Heart_Surface_Index_Values = zeros(Number_of_Surface_Points, 1);
+    
+    Adjusted_Heart_Surface = Heart_Surface;
+    
+    for First_Index = 1:Number_of_Surface_Points
+        
+        Closest_Position_Index = dsearchn(Adjusted_Heart_Surface, Stimulation_Site);
+        
+        Adjusted_Heart_Surface(Closest_Position_Index, :) = Adjusted_Heart_Surface(Closest_Position_Index, :) * 5000;
+        
+        Heart_Surface_Index_Values(First_Index, 1) = Closest_Position_Index;
+        
+    end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Take the Average of the Determined Points and Use as Heart Surface Points:
+
+    Heart_Surface_Point(1, 1) = mean(Heart_Surface(Heart_Surface_Index_Values, 1));
+    Heart_Surface_Point(2, 1) = mean(Heart_Surface(Heart_Surface_Index_Values, 2));
+    Heart_Surface_Point(3, 1) = mean(Heart_Surface(Heart_Surface_Index_Values, 3));
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+    
