@@ -1,5 +1,5 @@
 
-% Script to Determine the Fiber Orientation for a Cylinder of Points:
+% Script to Determine the Fiber Orientation Indicies in a Desired Region:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -20,23 +20,43 @@ clear; clc; close all;
         Cylinder_Radius = 2;
 
     % Data:
+    
+        % Cartesian Model:
 
-        Fiber_Orientation = readmatrix('/Users/lindsayrupp/Desktop/Weekend-Project/14-10-27_Carp_mesh.biv.lon.txt');
-        % Fiber_Orientation = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.lon.txt');
-            Fiber_Orientation = Fiber_Orientation(:, 1:3); % NOTE: First Three Columns Correspond to Longitudinal Vectors, i.e., the Fiber Orientation.
+            Fiber_Orientation = readmatrix('/Users/lindsayrupp/Desktop/Weekend-Project/14-10-27_Carp_mesh.biv.lon.txt');
+            % Fiber_Orientation = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.lon.txt');
+                Fiber_Orientation = Fiber_Orientation(:, 1:3); % NOTE: First Three Columns Correspond to Longitudinal Vectors, i.e., the Fiber Orientation.
 
-        Points = readmatrix('/Users/lindsayrupp/Desktop/Weekend-Project/14-10-27_Carp_mesh.biv.pts.txt');
-        % Points = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.pts.txt');
-            Points = Points/1000; % Scale Factor for CARP Node Locations of Ventricles
+            Points = readmatrix('/Users/lindsayrupp/Desktop/Weekend-Project/14-10-27_Carp_mesh.biv.pts.txt');
+            % Points = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.pts.txt');
+                Points = Points/1000; % Scale Factor for CARP Node Locations of Ventricles
 
-        Elements = readmatrix('/Users/lindsayrupp/Desktop/Weekend-Project/14-10-27_Carp_mesh.biv.elem.txt');
-        % Elements = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.elem.txt');
-            Elements = Elements + 1; % To Make One Based Nodes that Make up "Face"
-         
-        Heart_Surface = load('/Users/lindsayrupp/Desktop/Weekend-Project/14-10-27-CARP-Heart-Surface.mat');
-        % Heart_Surface = load('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/14-10-27-CARP-Heart-Surface.mat');
-            Heart_Surface = Heart_Surface.scirunfield.node' .* (10^4); % Scaling is Different 
-        
+            Elements = readmatrix('/Users/lindsayrupp/Desktop/Weekend-Project/14-10-27_Carp_mesh.biv.elem.txt');
+            % Elements = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.elem.txt');
+                Elements = Elements + 1; % To Make One Based Nodes that Make up "Face"
+
+            Heart_Surface = load('/Users/lindsayrupp/Desktop/Weekend-Project/14-10-27-CARP-Heart-Surface.mat');
+            % Heart_Surface = load('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/14-10-27-CARP-Heart-Surface.mat');
+                Heart_Surface = Heart_Surface.scirunfield.node' .* (10^4); % Scaling is Different 
+                
+        % UVC Model:
+                
+            UVC_RHO = load('/Users/lindsayrupp//Downloads/14-10-27/UVC/COORDS_RHO.pts');
+                UVC_RHO = UVC_RHO(2:end, 1); % Ignore First Element
+                
+            UVC_PHI = load('/Users/lindsayrupp//Downloads/14-10-27/UVC/COORDS_PHI.pts');
+                UVC_PHI = UVC_PHI(2:end, 1); % Ignore First Element
+                
+            UVC_V = load('/Users/lindsayrupp//Downloads/14-10-27/UVC/COORDS_V.pts');
+                UVC_V = UVC_V(2:end, 1); % Ignore First Element
+                
+            UVC_Z = load('/Users/lindsayrupp//Downloads/14-10-27/UVC/COORDS_Z.pts');
+                UVC_Z = UVC_Z(2:end, 1); % Ignore First Element
+                
+            % Combine the Coordinates:
+            
+                UVC_Coordinates = [UVC_Z, UVC_RHO, UVC_PHI, UVC_V];
+                
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Calculate the Centroid of Each Element:
@@ -114,17 +134,17 @@ clear; clc; close all;
     
         True_Heart_Surface = Adjusted_Heart_Surface((find(Cluster_Labels == 1)), :);
         
-        % Plot to Validate Results
-        
-            figure(2);
-            
-                hold on;
-                
-                    pcshow(True_Heart_Surface);
-                    
-                    title('True Heart Surface');
-                    
-                hold off;
+% %         % Plot to Validate Results
+% %         
+% %             figure(2);
+% %             
+% %                 hold on;
+% %                 
+% %                     pcshow(True_Heart_Surface);
+% %                     
+% %                     title('True Heart Surface');
+% %                     
+% %                 hold off;
                   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -186,19 +206,19 @@ clear; clc; close all;
 
         Cylinder_Z = Cylinder_Z * Cylinder_Height;
         
-        % Plot to Validate Results:
-        
-            figure(3);
-            
-                hold on;
-                
-                    scatter3(Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 1), Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 2), Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 3), 'ok'); 
-                    scatter3(0, 0, Rotated_Centered_Heart_Surface_Point(1, 3), 'ro'); 
-                    surf(Cylinder_X, Cylinder_Y, Cylinder_Z)
-                    
-                    title('Cylinder Implemented');
-                    
-                hold off;
+% %         % Plot to Validate Results:
+% %         
+% %             figure(3);
+% %             
+% %                 hold on;
+% %                 
+% %                     scatter3(Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 1), Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 2), Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 3), 'ok'); 
+% %                     scatter3(0, 0, Rotated_Centered_Heart_Surface_Point(1, 3), 'ro'); 
+% %                     surf(Cylinder_X, Cylinder_Y, Cylinder_Z)
+% %                     
+% %                     title('Cylinder Implemented');
+% %                     
+% %                 hold off;
         
     % Point Inclusion:
     
@@ -223,15 +243,6 @@ clear; clc; close all;
                     
                 hold off;
     
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Calculate the Average Fiber Orientation at those Points:
-
-    Fiber_Orientation_X = Fiber_Orientation(Cylinder_Indicies, 1);
-    Fiber_Orientation_Y = Fiber_Orientation(Cylinder_Indicies, 2);
-    Fiber_Orientation_Z = Fiber_Orientation(Cylinder_Indicies, 3);
-
-    Mean_Fiber_Orientation = [mean(Fiber_Orientation_X), mean(Fiber_Orientation_Y), mean(Fiber_Orientation_Z)];
-    STD_Fiber_Orientation = [std(Fiber_Orientation_X), std(Fiber_Orientation_Y), std(Fiber_Orientation_Z)];
-    
+       
     
