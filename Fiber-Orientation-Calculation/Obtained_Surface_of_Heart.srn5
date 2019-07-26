@@ -54,7 +54,7 @@
 									<name>Filename</name>
 									<value>
 										<which>2</which>
-										<value>/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/biv/14-10-27_Carp_mesh.biv.pts</value>
+										<value>/Users/lindsayrupp/Downloads/14-10-27/model/biv/14-10-27_Carp_mesh.biv.pts</value>
 									</value>
 								</second>
 							</item>
@@ -599,7 +599,7 @@
 				</second>
 			</item>
 			<item>
-				<first>ViewScene:0</first>
+				<first>ViewScene:1</first>
 				<second>
 					<module>
 						<package_name_>SCIRun</package_name_>
@@ -608,7 +608,7 @@
 					</module>
 					<state>
 						<stateMap>
-							<count>47</count>
+							<count>39</count>
 							<item_version>0</item_version>
 							<item>
 								<first>
@@ -678,7 +678,7 @@
 									<name>Emission</name>
 									<value>
 										<which>1</which>
-										<value>0.00000000000000000e+00</value>
+										<value>1.00000000000000000e+00</value>
 									</value>
 								</second>
 							</item>
@@ -744,18 +744,6 @@
 							</item>
 							<item>
 								<first>
-									<name>HeadLightAzimuth</name>
-								</first>
-								<second>
-									<name>HeadLightAzimuth</name>
-									<value>
-										<which>0</which>
-										<value>180</value>
-									</value>
-								</second>
-							</item>
-							<item>
-								<first>
 									<name>HeadLightColor</name>
 								</first>
 								<second>
@@ -763,18 +751,6 @@
 									<value>
 										<which>2</which>
 										<value>Color(0,0,0)</value>
-									</value>
-								</second>
-							</item>
-							<item>
-								<first>
-									<name>HeadLightInclination</name>
-								</first>
-								<second>
-									<name>HeadLightInclination</name>
-									<value>
-										<which>0</which>
-										<value>90</value>
 									</value>
 								</second>
 							</item>
@@ -792,18 +768,6 @@
 							</item>
 							<item>
 								<first>
-									<name>Light1Azimuth</name>
-								</first>
-								<second>
-									<name>Light1Azimuth</name>
-									<value>
-										<which>0</which>
-										<value>180</value>
-									</value>
-								</second>
-							</item>
-							<item>
-								<first>
 									<name>Light1Color</name>
 								</first>
 								<second>
@@ -811,18 +775,6 @@
 									<value>
 										<which>2</which>
 										<value>Color(0,0,0)</value>
-									</value>
-								</second>
-							</item>
-							<item>
-								<first>
-									<name>Light1Inclination</name>
-								</first>
-								<second>
-									<name>Light1Inclination</name>
-									<value>
-										<which>0</which>
-										<value>90</value>
 									</value>
 								</second>
 							</item>
@@ -840,18 +792,6 @@
 							</item>
 							<item>
 								<first>
-									<name>Light2Azimuth</name>
-								</first>
-								<second>
-									<name>Light2Azimuth</name>
-									<value>
-										<which>0</which>
-										<value>180</value>
-									</value>
-								</second>
-							</item>
-							<item>
-								<first>
 									<name>Light2Color</name>
 								</first>
 								<second>
@@ -859,18 +799,6 @@
 									<value>
 										<which>2</which>
 										<value>Color(0,0,0)</value>
-									</value>
-								</second>
-							</item>
-							<item>
-								<first>
-									<name>Light2Inclination</name>
-								</first>
-								<second>
-									<name>Light2Inclination</name>
-									<value>
-										<which>0</which>
-										<value>90</value>
 									</value>
 								</second>
 							</item>
@@ -888,18 +816,6 @@
 							</item>
 							<item>
 								<first>
-									<name>Light3Azimuth</name>
-								</first>
-								<second>
-									<name>Light3Azimuth</name>
-									<value>
-										<which>0</which>
-										<value>180</value>
-									</value>
-								</second>
-							</item>
-							<item>
-								<first>
 									<name>Light3Color</name>
 								</first>
 								<second>
@@ -907,18 +823,6 @@
 									<value>
 										<which>2</which>
 										<value>Color(0,0,0)</value>
-									</value>
-								</second>
-							</item>
-							<item>
-								<first>
-									<name>Light3Inclination</name>
-								</first>
-								<second>
-									<name>Light3Inclination</name>
-									<value>
-										<which>0</which>
-										<value>90</value>
 									</value>
 								</second>
 							</item>
@@ -978,7 +882,7 @@
 									<name>ScaleBarFontSize</name>
 									<value>
 										<which>0</which>
-										<value>8</value>
+										<value>99</value>
 									</value>
 								</second>
 							</item>
@@ -990,7 +894,7 @@
 									<name>ScaleBarHeight</name>
 									<value>
 										<which>1</which>
-										<value>1.00000000000000000e+00</value>
+										<value>0.00000000000000000e+00</value>
 									</value>
 								</second>
 							</item>
@@ -1002,7 +906,7 @@
 									<name>ScaleBarLength</name>
 									<value>
 										<which>1</which>
-										<value>1.00000000000000000e+00</value>
+										<value>0.00000000000000000e+00</value>
 									</value>
 								</second>
 							</item>
@@ -1026,7 +930,7 @@
 									<name>ScaleBarMultiplier</name>
 									<value>
 										<which>1</which>
-										<value>1.00000000000000000e+00</value>
+										<value>0.00000000000000000e+00</value>
 									</value>
 								</second>
 							</item>
@@ -1038,7 +942,7 @@
 									<name>ScaleBarNumTicks</name>
 									<value>
 										<which>0</which>
-										<value>11</value>
+										<value>0</value>
 									</value>
 								</second>
 							</item>
@@ -1110,7 +1014,7 @@
 									<name>Specular</name>
 									<value>
 										<which>1</which>
-										<value>0.00000000000000000e+00</value>
+										<value>4.00000000000000022e-01</value>
 									</value>
 								</second>
 							</item>
@@ -1210,7 +1114,7 @@
 									<name>FileTypeName</name>
 									<value>
 										<which>2</which>
-										<value>Matlab Field</value>
+										<value>SCIRun Field Binary</value>
 									</value>
 								</second>
 							</item>
@@ -1222,7 +1126,7 @@
 									<name>Filename</name>
 									<value>
 										<which>2</which>
-										<value>/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/14-10-27-CARP-Heart-Surface.mat</value>
+										<value>/Users/lindsayrupp/Desktop/14-10-27-Ele12.fld</value>
 									</value>
 								</second>
 							</item>
@@ -1232,7 +1136,7 @@
 			</item>
 		</modules>
 		<connections class_id="12" tracking_level="0" version="0">
-			<count>5</count>
+			<count>4</count>
 			<item_version>0</item_version>
 			<item class_id="13" tracking_level="0" version="0">
 				<moduleId1_>GetFieldBoundary:0</moduleId1_>
@@ -1243,18 +1147,6 @@
 				<moduleId2_>ShowField:0</moduleId2_>
 				<port2_>
 					<name>Field</name>
-					<id>0</id>
-				</port2_>
-			</item>
-			<item>
-				<moduleId1_>GetFieldBoundary:0</moduleId1_>
-				<port1_>
-					<name>BoundaryField</name>
-					<id>0</id>
-				</port1_>
-				<moduleId2_>WriteField:0</moduleId2_>
-				<port2_>
-					<name>FieldToWrite</name>
 					<id>0</id>
 				</port2_>
 			</item>
@@ -1288,7 +1180,7 @@
 					<name>SceneGraph</name>
 					<id>0</id>
 				</port1_>
-				<moduleId2_>ViewScene:0</moduleId2_>
+				<moduleId2_>ViewScene:1</moduleId2_>
 				<port2_>
 					<name>GeneralGeom</name>
 					<id>0</id>
@@ -1309,15 +1201,15 @@
 		<item>
 			<first>ReadField:0</first>
 			<second>
-				<first>0.00000000000000000e+00</first>
-				<second>7.60000000000000000e+01</second>
+				<first>1.00000000000000000e+00</first>
+				<second>5.50000000000000000e+01</second>
 			</second>
 		</item>
 		<item>
 			<first>ScaleFieldMeshAndData:0</first>
 			<second>
 				<first>0.00000000000000000e+00</first>
-				<second>2.28000000000000000e+02</second>
+				<second>1.54000000000000000e+02</second>
 			</second>
 		</item>
 		<item>
@@ -1328,10 +1220,10 @@
 			</second>
 		</item>
 		<item>
-			<first>ViewScene:0</first>
+			<first>ViewScene:1</first>
 			<second>
 				<first>0.00000000000000000e+00</first>
-				<second>6.84000000000000000e+02</second>
+				<second>6.90000000000000000e+02</second>
 			</second>
 		</item>
 		<item>
@@ -1370,7 +1262,7 @@
 			<second>-1</second>
 		</item>
 		<item>
-			<first>ViewScene:0</first>
+			<first>ViewScene:1</first>
 			<second>-1</second>
 		</item>
 		<item>
