@@ -3,9 +3,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%clear; clc; close all;
-
-clearvars -except Angle_for_Short_Axis_Mean Angle_for_Long_Axis_Mean
+clear; clc; close all;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -17,7 +15,7 @@ clearvars -except Angle_for_Short_Axis_Mean Angle_for_Long_Axis_Mean
         
     % Data:
 
-        Results = load('/Users/rupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Simulated-Version/Results/14-10-27-LVFW-Depth-Simulation.mat');
+        Results = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Simulated-Version/Results/14-10-27-Ellipse-Results-Long-Axis-Implementation.mat');
             Results = Results.Compiled_Ellipse_Information;
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -29,7 +27,7 @@ clearvars -except Angle_for_Short_Axis_Mean Angle_for_Long_Axis_Mean
         Area(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Area;
         Axis_Ratio(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Axis_Ratio;
         Angle_for_Long_Axis(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Angle_for_Long_Axis;
-        Angle_for_Short_Axis(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Angle_for_Short_Axis;
+%         Angle_for_Short_Axis(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Angle_for_Short_Axis;
         
     end
     
@@ -59,11 +57,11 @@ clearvars -except Angle_for_Short_Axis_Mean Angle_for_Long_Axis_Mean
                 
                 title('Long Axis Angle of the Ellipse')
                 
-            subplot(2, 2, 4)
-            
-                bar(Angle_for_Short_Axis)
-                
-                title('Short Axis Angle of the Ellipse')
-                
+%             subplot(2, 2, 4)
+%             
+%                 bar(Angle_for_Short_Axis)
+%                 
+%                 title('Short Axis Angle of the Ellipse')
+%                 
         hold off;
 

@@ -11,13 +11,13 @@ clear; clc; close all;
 
     % Magic Numbers::
     
-        % Coordinate_of_Interest = [70609.0269937853, 46768.4045896411, 66518.8903804147]/1000; % Epicardial
-        Coordinate_of_Interest = [60651.6766677865, 46514.6602504612, 59369.3542404863]/1000; % Endocardial
+        Coordinate_of_Interest = [70609.0269937853, 46768.4045896411, 66518.8903804147]/1000; % Epicardial
+        %Coordinate_of_Interest = [60651.6766677865, 46514.6602504612, 59369.3542404863]/1000; % Endocardial
         
         Number_of_Centroid_Points = 1;
         Number_of_Surface_Points = 1;
         
-        Cylinder_Radius = 10;
+        Cylinder_Radius = 2;
 
     % Data:
     
@@ -35,7 +35,7 @@ clear; clc; close all;
             % Elements = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.elem.txt');
                 Elements = Elements + 1; % To Make One Based Nodes that Make up "Face"
 
-            Heart_Surface_Data = load('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Simulated-Data/Geometry-Files/14-10-27-CARP-Epicardial-Surface-Electrodes12.mat');
+            Heart_Surface_Data = load('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Simulated-Data/Geometry-Files/14-10-27-CARP-Epicardial-Surface-Electrodes910.mat');
             % Heart_Surface = load('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/14-10-27-CARP-Heart-Surface.mat');
                 Heart_Surface = Heart_Surface_Data.scirunfield.node'; % Scaling is Different 
                 Activation_Times = Heart_Surface_Data.scirunfield.field;
@@ -153,19 +153,19 @@ clear; clc; close all;
 
         Cylinder_Z = Cylinder_Z * Cylinder_Height;
         
-% %         % Plot to Validate Results:
-% %         
-% %             figure(3);
-% %             
-% %                 hold on;
-% %                 
-% %                     scatter3(Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 1), Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 2), Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 3), 'ok'); 
-% %                     scatter3(0, 0, Rotated_Centered_Heart_Surface_Point(1, 3), 'ro'); 
-% %                     surf(Cylinder_X, Cylinder_Y, Cylinder_Z)
-% %                     
-% %                     title('Cylinder Implemented');
-% %                     
-% %                 hold off;
+        % Plot to Validate Results:
+        
+            figure(3);
+            
+                hold on;
+                
+                    scatter3(Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 1), Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 2), Rotated_Centered_Element_Centroid(Stimulation_Site_Index_Values, 3), 'ok'); 
+                    scatter3(0, 0, Rotated_Centered_Heart_Surface_Point(1, 3), 'ro'); 
+                    surf(Cylinder_X, Cylinder_Y, Cylinder_Z)
+                    
+                    title('Cylinder Implemented');
+                    
+                hold off;
         
     % Point Inclusion:
     
