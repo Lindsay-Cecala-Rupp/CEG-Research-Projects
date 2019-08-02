@@ -22,7 +22,8 @@ tic
     
     % Load in Sock:
 
-        Geometry = load('/Users/rupp/Documents/Experiment-14-10-27/Geometry-Files/14_10_27_Registered_Cartesian_Sock.mat'); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
+        Geometry = load('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/Geometry-Files/Registered_Cartesian_Sock.mat');
+        %Geometry = load('/Users/rupp/Documents/Experiment-14-10-27/Geometry-Files/14_10_27_Registered_Cartesian_Sock.mat'); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
         %Geometry = load('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Geometry-Files/Registered_Cartesian_Sock.mat'); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
             Points = Geometry.outSock.pts; % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE VARIABLE IS STORED!!!!!!!!!!
             Faces = Geometry.outSock.fac; % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE VARIABLE IS STORED!!!!!!!!!!
@@ -57,7 +58,8 @@ tic
 
                         try
         
-                            Time_Signal = load(strcat('/Users/rupp/Documents/PFEIFER-Calculations/Experiment-14-10-27/Processed/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Second_Index),'-cs.mat'));
+                            Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Second_Index),'-cs.mat'));
+                            %Time_Signal = load(strcat('/Users/rupp/Documents/PFEIFER-Calculations/Experiment-14-10-27/Processed/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Second_Index),'-cs.mat'));
                             %Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Second_Index),'-cs.mat')); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
                             Determine_Number_of_Beats_Matrix(Second_Index,1) = 1;
 
@@ -95,13 +97,15 @@ tic
                     % Load in Time Signal Again:
                         if Third_Index < Number_of_Beats_per_Run
 
-                            Time_Signal = load(strcat('/Users/rupp/Documents/PFEIFER-Calculations/Experiment-14-10-27/Processed/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Third_Index),'-cs.mat'));
+                            Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Third_Index),'-cs.mat'));
+                            %Time_Signal = load(strcat('/Users/rupp/Documents/PFEIFER-Calculations/Experiment-14-10-27/Processed/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Third_Index),'-cs.mat'));
                             %Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Third_Index),'-cs.mat')); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
                                 ECG_Signal = Time_Signal.ts.potvals;
 
                         elseif Third_Index == Number_of_Beats_per_Run
 
-                            Time_Signal = load(strcat('/Users/rupp/Documents/PFEIFER-Calculations/Experiment-14-10-27/Processed/Run', Number_of_Zeros, num2str(Run_Number), '-cs.mat'));
+                            Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-cs.mat'));
+                            %Time_Signal = load(strcat('/Users/rupp/Documents/PFEIFER-Calculations/Experiment-14-10-27/Processed/Run', Number_of_Zeros, num2str(Run_Number), '-cs.mat'));
                             %Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number),'-cs.mat')); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
                                 ECG_Signal = Time_Signal.ts.potvals;
 
@@ -154,7 +158,8 @@ tic
 
                         % Laplacian Interpolation:
                         
-                            Bad_Leads = load('/Users/rupp/Documents/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolate/Mapping Matrix Calculation/Network Data/Bad-Lead-Mask/14_10_27_Bad_Leads_Mask.mat');
+                            Bad_Leads = load('/Users/rupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolation/Bad-Lead-Mask/14_10_27_Sock_Bad_Leads_Mask.mat');
+                            %Bad_Leads = load('/Users/rupp/Documents/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolate/Mapping Matrix Calculation/Network Data/Bad-Lead-Mask/14_10_27_Bad_Leads_Mask.mat');
                                 Bad_Leads = Bad_Leads.Bad_Lead_Mask;
 
 %                             Bad_Leads = load('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Bad_Leads_14_10_27.mat'); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
@@ -162,7 +167,8 @@ tic
                                     
                             Bad_Lead_Value = find(Bad_Leads == 1);
 
-                            Mapping_Matrix = load('/Users/rupp/Documents/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolate/Mapping Matrix Calculation/Results/14_10_27_Mapping_Matrix.mat');
+                            Mapping_Matrix = load('/Users/rupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolation/Results/14-10-27-Sock-Mapping-Matrix.mat');
+                            %Mapping_Matrix = load('/Users/rupp/Documents/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolate/Mapping Matrix Calculation/Results/14_10_27_Mapping_Matrix.mat');
                             %Mapping_Matrix = load('/Users/lindsayrupp/Documents/CEG-Research/Breakthrough-Site-Angle-Calculation/Experimental-Version/Laplacian-Interpolate/SCIRun-Component/Mapping_Matrix.mat');
                                 Mapping_Matrix = Mapping_Matrix.scirunmatrix;
 
@@ -204,18 +210,6 @@ tic
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-                    % Script to Center the Sock Coordinates at the Origin:
-
-                        % Find Centroid:
-
-                            Sock_Centroid = [mean(Upsampled_Points(:, 1)); mean(Upsampled_Points(:, 2)); mean(Upsampled_Points(:, 3))];
-
-                        % Translate Centroid to the Origin:
-
-                            Centered_Upsampled_Points = Upsampled_Points - Sock_Centroid';
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
                     for Fourth_Index = 1:size(Percent_Values, 2)
                         
                         Percent_into_QRS_Peak = Percent_Values(1, Fourth_Index);
@@ -224,14 +218,14 @@ tic
 
                         % Functions: Determine Which Electrodes Have a Activation Time Less than the Set QRS Time.
 
-                        [Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location] = Percent_Act_Breakthrough_Site_Electrode_Determination_Function(Centered_Upsampled_Points, Upsampled_Interpolated_Activation_Times, Percent_into_QRS_Peak);
+                        [Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location] = Percent_Act_Breakthrough_Site_Electrode_Determination_Function(Upsampled_Points, Upsampled_Interpolated_Activation_Times, Percent_into_QRS_Peak);
 
                         if size(Activated_Electrode_X_Location, 1) == 0
 
                             Ellipse_Information.Area.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = NaN;
                             Ellipse_Information.Axis_Ratio.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = NaN;
                             Ellipse_Information.Angle_for_Long_Axis.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = NaN;
-                            Ellipse_Information.Angle_for_Short_Axis.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = NaN;
+                            %Ellipse_Information.Angle_for_Short_Axis.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = NaN;
 
                         else
 
@@ -253,11 +247,83 @@ tic
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+                        % Script to Determine the Long Axis of the Heart:
+
+                            [Ellipsoid_Center, Ellipsoid_Radii, Ellipsoid_Vectors, Ellipsoid_Equation, Ellipsoid_Error] = Fit_Ellipsoid_to_Points([Upsampled_Points(:, 1), Upsampled_Points(:, 2), Upsampled_Points(:, 3)], '');
+
+                            % Determine the Point on the Long Axis Closest to the Centroid of the Breakthrough Site:
+
+                                % Create a Line Along the Vector with 1000 Points Along it:
+
+                                    Long_Axis_Variable = linspace((min(min(Upsampled_Points)) - 50), (max(max(Upsampled_Points)) + 50), 10000);
+
+                                    Long_Axis_Vector_X = Ellipsoid_Center(1) + Long_Axis_Variable * Ellipsoid_Vectors(1, 1);
+                                    Long_Axis_Vector_Y = Ellipsoid_Center(2) + Long_Axis_Variable * Ellipsoid_Vectors(2, 1);
+                                    Long_Axis_Vector_Z = Ellipsoid_Center(3) + Long_Axis_Variable * Ellipsoid_Vectors(3, 1);
+
+                                    Long_Axis_Components = [Long_Axis_Vector_X; Long_Axis_Vector_Y; Long_Axis_Vector_Z];
+
+                                % Determine the Closest Point to the Breakthrough Cite Centroid:
+
+                                    Breakthrough_Site_Centroid = [mean(Activated_Electrode_X_Location); mean(Activated_Electrode_Y_Location); mean(Activated_Electrode_Z_Location)];
+
+                                    Long_Axis_Closest_Index = dsearchn(Long_Axis_Components', Breakthrough_Site_Centroid');
+
+                                    % For Future Calculations - I Want this Points to be at the Origin:
+
+                                        Centered_Activated_Electrode_X_Location = Activated_Electrode_X_Location - Long_Axis_Vector_X(Long_Axis_Closest_Index);
+                                        Centered_Activated_Electrode_Y_Location = Activated_Electrode_Y_Location - Long_Axis_Vector_Y(Long_Axis_Closest_Index);
+                                        Centered_Activated_Electrode_Z_Location = Activated_Electrode_Z_Location - Long_Axis_Vector_Z(Long_Axis_Closest_Index);
+
+                                        Centered_Breakthrough_Site_Centroid = Breakthrough_Site_Centroid - Long_Axis_Components(:, Long_Axis_Closest_Index);
+
+% %                             % Plot the Results to Validate:
+% % 
+% %                                 Minimum_Sock_Value = min([Upsampled_Points(:, 1), Upsampled_Points(:, 2), Upsampled_Points(:, 3)]);
+% %                                 Maximum_Sock_Value = max([Upsampled_Points(:, 1), Upsampled_Points(:, 2), Upsampled_Points(:, 3)]);
+% % 
+% %                                 Number_of_Plotting_Steps = 50;
+% %                                 Step_Size = (Maximum_Sock_Value - Minimum_Sock_Value) / Number_of_Plotting_Steps;
+% %                                 [Ellipsoid_X, Ellipsoid_Y, Ellipsoid_Z] = meshgrid(linspace(Minimum_Sock_Value(1) - Step_Size(1), Maximum_Sock_Value(1) + Step_Size(1), Number_of_Plotting_Steps), linspace(Minimum_Sock_Value(2) - Step_Size(2), Maximum_Sock_Value(2) + Step_Size(2), Number_of_Plotting_Steps), linspace(Minimum_Sock_Value(3) - Step_Size(3), Maximum_Sock_Value(3) + Step_Size(3), Number_of_Plotting_Steps));
+% % 
+% %                                 Ellipsoid_Points = Ellipsoid_Equation(1) * Ellipsoid_X .* Ellipsoid_X + Ellipsoid_Equation(2) * Ellipsoid_Y .* Ellipsoid_Y + Ellipsoid_Equation(3) * Ellipsoid_Z .* Ellipsoid_Z + 2 * Ellipsoid_Equation(4) * Ellipsoid_X .* Ellipsoid_Y + 2 * Ellipsoid_Equation(5) * Ellipsoid_X .* Ellipsoid_Z + 2 * Ellipsoid_Equation(6) * Ellipsoid_Y .* Ellipsoid_Z + 2 * Ellipsoid_Equation(7) * Ellipsoid_X + 2 * Ellipsoid_Equation(8) * Ellipsoid_Y + 2 * Ellipsoid_Equation(9) * Ellipsoid_Z;
+% % 
+% %                                 figure(3);
+% % 
+% %                                     hold on;
+% % 
+% %                                         plot3(Upsampled_Points(:, 1), Upsampled_Points(:, 2), Upsampled_Points(:, 3), '.r' );
+% % 
+% %                                         Patched_Ellipsoid_Points = patch(isosurface(Ellipsoid_X, Ellipsoid_Y, Ellipsoid_Z, Ellipsoid_Points, -Ellipsoid_Equation(10)));
+% % 
+% %                                             set(Patched_Ellipsoid_Points, 'FaceColor', 'g', 'EdgeColor', 'none' );
+% % 
+% %                                         quiver3(Ellipsoid_Center(1), Ellipsoid_Center(2), Ellipsoid_Center(3), Ellipsoid_Vectors(1, 1)*100, Ellipsoid_Vectors(2, 1)*100, Ellipsoid_Vectors(3, 1)*100, 'k');
+% % 
+% %                                         plot3(Long_Axis_Vector_X, Long_Axis_Vector_Y, Long_Axis_Vector_Z, 'b');
+% % 
+% %                                         scatter3(Long_Axis_Vector_X(Long_Axis_Closest_Index), Long_Axis_Vector_Y(Long_Axis_Closest_Index), Long_Axis_Vector_Z(Long_Axis_Closest_Index), 'ob');
+% % 
+% %                                         xlabel('X-Axis');
+% %                                         ylabel('Y-Axis');
+% %                                         zlabel('Z-Axis');
+% % 
+% %                                         title('Fitted Ellipsoid');
+% % 
+% %                                         axis vis3d equal;
+% %                                         camlight;
+% %                                         lighting phong;
+% % 
+% %                                     hold off;
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
                         % Script to "Cluster" the Points Together and Remove Second Breakthrough Sites:
 
                             % Functions: Create Clusters and Chooses Cluster with the Most Points.
 
-                            [Clustered_Activated_Electrode_X_Location, Clustered_Activated_Electrode_Y_Location, Clustered_Activated_Electrode_Z_Location] = Clustering_Function(Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location);
+                            [Clustered_Centered_Activated_Electrode_X_Location, Clustered_Centered_Activated_Electrode_Y_Location, Clustered_Centered_Activated_Electrode_Z_Location] = Clustering_Function(Centered_Activated_Electrode_X_Location, Centered_Activated_Electrode_Y_Location, Centered_Activated_Electrode_Z_Location);
 
 % %                             % Plot the Results to Validate:
 % %             
@@ -281,7 +347,7 @@ tic
 
                             % Functions: Fits a Vector from the Sock Centroid to the Breakthrough Site Centroid and Rotates to the Nearest Axis.
 
-                            [Global_Projected_Points, Implemented_Points] = Global_Plane_Fitting_Function(Clustered_Activated_Electrode_X_Location, Clustered_Activated_Electrode_Y_Location, Clustered_Activated_Electrode_Z_Location);
+                            [Global_Projected_Points, Implemented_Points] = Global_Plane_Fitting_Function_Long_Axis(Centered_Breakthrough_Site_Centroid, Clustered_Centered_Activated_Electrode_X_Location, Clustered_Centered_Activated_Electrode_Y_Location, Clustered_Centered_Activated_Electrode_Z_Location);
 
 % %                             Plot to Validate Results:
 % % 
@@ -370,16 +436,16 @@ tic
                                     Ellipse_Information.Area.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = NaN;
                                     Ellipse_Information.Axis_Ratio.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = NaN;
                                     Ellipse_Information.Angle_for_Long_Axis.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = NaN;
-                                    Ellipse_Information.Angle_for_Short_Axis.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = NaN;
+                                    %Ellipse_Information.Angle_for_Short_Axis.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = NaN;
 
                                 else
 
-                                    [Temporary_Ellipse_Information] = Calculate_Ellipse_Parameters_Function_V2(Ellipse_Structure, Horizontal_Line, Vertical_Line);
+                                    [Temporary_Ellipse_Information] = Calculate_Ellipse_Parameters_Function_V3(Ellipse_Structure, Horizontal_Line, Vertical_Line);
                                 
                                         Ellipse_Information.Area.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = Temporary_Ellipse_Information.Area;
                                         Ellipse_Information.Axis_Ratio.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = Temporary_Ellipse_Information.Axis_Ratio;
                                         Ellipse_Information.Angle_for_Long_Axis.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = Temporary_Ellipse_Information.Angle_for_Long_Axis;
-                                        Ellipse_Information.Angle_for_Short_Axis.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = Temporary_Ellipse_Information.Angle_for_Short_Axis;
+                                        %Ellipse_Information.Angle_for_Short_Axis.Percent(Fourth_Index, 1).Run(First_Index, 1).Beat(Third_Index, 1) = Temporary_Ellipse_Information.Angle_for_Short_Axis;
                                     
                                 end
                                 
@@ -394,4 +460,3 @@ tic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 toc
-        

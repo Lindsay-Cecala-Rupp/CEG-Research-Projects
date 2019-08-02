@@ -12,13 +12,13 @@ clear; clc; close all;
     % Load in Relevant Variables:
 
         Grid_Resolution = 0.2;
-        Percent_into_QRS_Peak = 0.5;
+        Percent_into_QRS_Peak = 0.15;
         
         Electrodes_Stimulated = 910;
     
     % Load in Data:
 
-        Data = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Simulated-Data/LVFW-Depth-Protocol/CARP-Data-on-Sock/14-10-27-Simulated-Electrodes', num2str(Electrodes_Stimulated), '.mat'));
+        Data = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Simulated-Data/LVFW-Depth-Protocol/CARP-Data-on-Sock/14-10-27-Simulated-Electrodes', num2str(Electrodes_Stimulated), '.mat'));
         
             Points = Data.Sock_US.node;
             Faces = Data.Sock_US.face;

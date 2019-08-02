@@ -11,11 +11,11 @@ clear; clc; close all;
 
     % Magic Numbers:
     
-        Time_Points = 20;
+        Time_Points = 2;
         
     % Data:
 
-        Results = load('/Users/rupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Experimental-Version/Results/14_10_27_Percent_Act_Ellipse_V2_Stats.mat');
+        Results = load('/Users/rupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Experimental-Version/Results/14_10_27_Percent_Act_Ellipse_V3_Long_Axis_Stats_All.mat');
             Results = Results.Statistics;
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -29,14 +29,14 @@ clear; clc; close all;
             Area_Mean(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Area_Mean;
             Axis_Ratio_Mean(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Axis_Ratio_Mean;
             Angle_for_Long_Axis_Mean(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Angle_for_Long_Axis_Mean;
-            Angle_for_Short_Axis_Mean(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Angle_for_Short_Axis_Mean;
+%             Angle_for_Short_Axis_Mean(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Angle_for_Short_Axis_Mean;
         
         % Grab STDs:
         
             Area_STDs(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Area_STD;
             Axis_Ratio_STDs(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Axis_Ratio_STD;
             Angle_for_Long_Axis_STDs(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Angle_for_Long_Axis_STD;
-            Angle_for_Short_Axis_STDs(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Angle_for_Short_Axis_STD;
+%             Angle_for_Short_Axis_STDs(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Angle_for_Short_Axis_STD;
              
     end
    
@@ -95,19 +95,19 @@ clear; clc; close all;
                     
                 hold off;
 
-            subplot(2, 2, 4)
-            
-                hold on;
-            
-                    bar(Angle_for_Short_Axis_Mean)
-                    
-                    Error_Info = errorbar(Data_Points, Angle_for_Short_Axis_Mean, Angle_for_Short_Axis_STDs, Angle_for_Short_Axis_STDs);
-
-                        Error_Info.Color = [0 0 0];
-                        Error_Info.LineStyle = 'none';
-
-                    title('Short Axis Angle of the Ellipse')
-                    
-                hold off;
+% %             subplot(2, 2, 4)
+% %             
+% %                 hold on;
+% %             
+% %                     bar(Angle_for_Short_Axis_Mean)
+% %                     
+% %                     Error_Info = errorbar(Data_Points, Angle_for_Short_Axis_Mean, Angle_for_Short_Axis_STDs, Angle_for_Short_Axis_STDs);
+% % 
+% %                         Error_Info.Color = [0 0 0];
+% %                         Error_Info.LineStyle = 'none';
+% % 
+% %                     title('Short Axis Angle of the Ellipse')
+% %                     
+% %                 hold off;
                 
         hold off;

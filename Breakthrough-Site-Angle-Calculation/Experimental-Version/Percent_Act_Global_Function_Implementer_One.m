@@ -12,11 +12,11 @@ clear; clc; close all;
     % Load in Relevant Variables:
 
         Grid_Resolution = 0.2;
-        Percent_into_QRS_Peak = 0.35;
+        Percent_into_QRS_Peak = 0.15;
     
     % Load in Sock:
 
-            Geometry = load('/Users/rupp/Documents/Experiment-14-10-27/Geometry-Files/14_10_27_Registered_Cartesian_Sock.mat'); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
+            Geometry = load('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/Geometry-Files/Registered_Cartesian_Sock.mat'); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
 % %         Geometry = load('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Geometry-Files/Registered_Cartesian_Sock.mat'); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
             
             Points = Geometry.outSock.pts; % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE VARIABLE IS STORED!!!!!!!!!!
@@ -24,7 +24,7 @@ clear; clc; close all;
             
     % Load in Time Signal:
 
-        Run_Number = 30; % NOTE: CHANGE THIS DEPENDING ON WHAT RUN I WANT TO LOOK AT!!!!!!!!!!!
+        Run_Number = 44; % NOTE: CHANGE THIS DEPENDING ON WHAT RUN I WANT TO LOOK AT!!!!!!!!!!!
         Beat_Number = 9; % NOTE: CHANGE THIS DEPENDING ON WHAT BEAT I WANT TO LOOK AT!!!!!!!!!!!
 
         % If/ElseIf/Else Statements to Make Sure that the Right File get Loaded:
@@ -38,11 +38,9 @@ clear; clc; close all;
 
         % Grab File:
         
-            Time_Signal = load(strcat('/Users/rupp/Documents/PFEIFER-Calculations/Experiment-14-10-27/Processed/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Beat_Number),'-cs.mat'));
+            Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-cs.mat'));
+            %Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Beat_Number),'-cs.mat'));
 
-% %             Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Beat_Number),'-cs.mat')); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
-% %             Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG Research/Pacing Experiment Data/14-10-27/PFEIFER Processed Data/Run', Number_of_Zeros, num2str(Run_Number),'-cs.mat')); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
-                
                 ECG_Signal = Time_Signal.ts.potvals;
                 
             % From File Obtain the Fiducials:
@@ -76,7 +74,7 @@ clear; clc; close all;
 
     % Laplacian Interpolation:
     
-        Bad_Leads = load('/Users/rupp/Documents/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolate/Mapping Matrix Calculation/Network Data/Bad-Lead-Mask/14_10_27_Bad_Leads_Mask.mat');
+        Bad_Leads = load('/Users/rupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolation/Bad-Lead-Mask/14_10_27_Sock_Bad_Leads_Mask.mat');
             Bad_Leads = Bad_Leads.Bad_Lead_Mask;
         
 % %         Bad_Leads = load('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Bad_Leads_14_10_27.mat'); % NOTE: CHANGE THIS LOCATION DEPENDING ON WHERE FILE IS STORED!!!!!!!!!!
@@ -84,7 +82,7 @@ clear; clc; close all;
                 
         Bad_Lead_Value = find(Bad_Leads == 1);
         
-        Mapping_Matrix = load('/Users/rupp/Documents/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolate/Mapping Matrix Calculation/Results/14_10_27_Mapping_Matrix.mat');
+       Mapping_Matrix = load('/Users/rupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolation/Results/14-10-27-Sock-Mapping-Matrix.mat');
             
 % %         Mapping_Matrix = load('/Users/lindsayrupp/Documents/CEG-Research/Breakthrough-Site-Angle-Calculation/Experimental-Version/Laplacian-Interpolate/SCIRun-Component/Mapping_Matrix.mat');
             
