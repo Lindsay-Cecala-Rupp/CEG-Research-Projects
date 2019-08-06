@@ -57,7 +57,8 @@ tic
 
                         try
         
-                            Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Second_Index),'-cs.mat'));
+                            %Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Second_Index),'-cs.mat'));
+                            Time_Signal = load(strcat('/Users/rupp/Desktop/PFEIFER_Redo/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Second_Index),'-cs.mat'));
                             
                             Determine_Number_of_Beats_Matrix(Second_Index,1) = 1;
 
@@ -95,12 +96,14 @@ tic
                     % Load in Time Signal Again:
                         if Third_Index < Number_of_Beats_per_Run
 
-                            Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Third_Index),'-cs.mat'));
+                            %Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Third_Index),'-cs.mat'));
+                            Time_Signal = load(strcat('/Users/rupp/Desktop/PFEIFER_Redo/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Third_Index),'-cs.mat'));
                                 ECG_Signal = Time_Signal.ts.potvals;
 
                         elseif Third_Index == Number_of_Beats_per_Run
 
-                            Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-cs.mat'));
+                            %Time_Signal = load(strcat('/Users/rupp/Documents/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-cs.mat'));
+                            Time_Signal = load(strcat('/Users/rupp/Desktop/PFEIFER_Redo/Run', Number_of_Zeros, num2str(Run_Number), '-cs.mat'));    
                                 ECG_Signal = Time_Signal.ts.potvals;
 
                         end
@@ -121,26 +124,32 @@ tic
                             QRS_Off_Fiducial = find(Fiducial_Types == 4); % 4 is QRS off
                             QRS_Off_Time = Fiducial_Structure(QRS_Off_Fiducial);
                             QRS_Off_Time = getfield(QRS_Off_Time, 'value'); % Get QRS Off Values
-
-                        % Implement Function from PEFIER Pull Out:
+                            
+                        % Activation Times:
                         
-                            try
+                            Activation_Time_Fiducial = find(Fiducial_Types == 10); % 10 is Activation Time
+                            Activation_Time = Fiducial_Structure(Activation_Time_Fiducial);
+                            Activation_Time = getfield(Activation_Time, 'value'); % Get QRS Off Values
 
-                                Activation_Time = Calculate_Activation_Time_PFEIFER_Pullout(ECG_Signal, round(QRS_On_Time), round((QRS_Off_Time + 5)));
-                                
-                            catch 
-                                
-                                try
-                                    
-                                    Activation_Time = Calculate_Activation_Time_PFEIFER_Pullout(ECG_Signal, ceil(QRS_On_Time), ceil((QRS_Off_Time + 5)));
-                                    
-                                catch
-                                    
-                                    Activation_Time = Calculate_Activation_Time_PFEIFER_Pullout(ECG_Signal, floor(QRS_On_Time), floor((QRS_Off_Time + 5)));
-                                    
-                                end
-                                
-                            end
+% %                         % Implement Function from PEFIER Pull Out:
+% %                         
+% %                             try
+% % 
+% %                                 Activation_Time = Calculate_Activation_Time_PFEIFER_Pullout(ECG_Signal, round(QRS_On_Time), round((QRS_Off_Time + 5)));
+% %                                 
+% %                             catch 
+% %                                 
+% %                                 try
+% %                                     
+% %                                     Activation_Time = Calculate_Activation_Time_PFEIFER_Pullout(ECG_Signal, ceil(QRS_On_Time), ceil((QRS_Off_Time + 5)));
+% %                                     
+% %                                 catch
+% %                                     
+% %                                     Activation_Time = Calculate_Activation_Time_PFEIFER_Pullout(ECG_Signal, floor(QRS_On_Time), floor((QRS_Off_Time + 5)));
+% %                                     
+% %                                 end
+% %                                 
+% %                             end
                  
                         % Overall Activation Time:
 

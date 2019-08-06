@@ -24,7 +24,7 @@ tic
         Number_of_Centroid_Points = 5;
         Number_of_Surface_Points = 5;
         
-        Cylinder_Radius = 5;
+        Cylinder_Radius = 15;
         
         Division_Value = 0.25;
         
@@ -134,8 +134,8 @@ tic
             
                 File_Name_One = sprintf('14-10-27-Electrodes%d-Element_Points.pts', Electrode_Locations(First_Index));
                 File_Name_Two = sprintf('14-10-27-Electrodes%d-Element_Points.mat', Electrode_Locations(First_Index));
-                File_Name_Three = sprintf('14-10-27-Electrodes%d-Fiber_Angles.pts', Electrode_Locations(First_Index));
-                File_Name_Four = sprintf('14-10-27-Electrodes%d-Imbrication_Angles.pts', Electrode_Locations(First_Index));
+                File_Name_Three = sprintf('14-10-27-Electrodes%d-Fiber_Angles.mat', Electrode_Locations(First_Index));
+                File_Name_Four = sprintf('14-10-27-Electrodes%d-Imbrication_Angles.mat', Electrode_Locations(First_Index));
                 
                 save(File_Name_One, 'Element_Centroids_of_Interest', '-ascii');
                 save(File_Name_Two, 'Element_Centroids_of_Interest');
