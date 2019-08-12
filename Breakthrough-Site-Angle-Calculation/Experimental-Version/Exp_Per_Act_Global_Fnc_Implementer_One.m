@@ -28,12 +28,19 @@ clear; clc; close all;
         Beat_Number = 9; % NOTE: CHANGE THIS DEPENDING ON WHAT BEAT I WANT TO LOOK AT!!!!!!!!!!!
 
         % If/ElseIf/Else Statements to Make Sure that the Right File get Loaded:
+        
             if Run_Number > 0 && Run_Number <= 9
+                
                 Number_of_Zeros = '000';
+                
             elseif Run_Number > 9 && Run_Number <= 99 
+                
                 Number_of_Zeros = '00';
+                
             else
+                
                 Number_of_Zeros = '0';
+                
             end
 
         % Grab File:
