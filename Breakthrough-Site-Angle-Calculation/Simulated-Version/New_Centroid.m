@@ -47,18 +47,6 @@ clear; clc; close all;
                 title('Barycentricly UpSampled Sock');
                 
             hold off;
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Script to Center the Sock Coordinates at the Origin:
-
-    % Find Centroid:
-    
-        Sock_Centroid = [mean(Upsampled_Points(:, 1)); mean(Upsampled_Points(:, 2)); mean(Upsampled_Points(:, 3))];
-        
-    % Translate Centroid to the Origin:
-    
-        Centered_Upsampled_Points = Upsampled_Points - Sock_Centroid';
             
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -66,7 +54,7 @@ clear; clc; close all;
 
     % Functions: Determine Which Electrodes Have a Activation Time Less than the Set QRS Time.
 
-    [Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location] = Percent_Act_Breakthrough_Site_Electrode_Determination_Function(Centered_Upsampled_Points, Upsampled_Activation_Times, Percent_into_QRS_Peak);
+    [Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location] = Percent_Act_Breakthrough_Site_Electrode_Determination_Function(Upsampled_Points, Upsampled_Activation_Times, Percent_into_QRS_Peak);
     
     % Plot to Validate Results:
     
@@ -85,56 +73,72 @@ clear; clc; close all;
             hold off;
             
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+% Script to Center the Sock at the Axis Point Closest to the Breakthrough Site Centroid:
+
+    % Determine Centroid:
+
+        Breakthrough_Site_Centroid = [mean(Activated_Electrode_X_Location), mean(Activated_Electrode_Y_Location), mean(Activated_Electrode_Z_Location)];
+    
+        Possible_Z_Axis_Location_Points = [zeros(1, 1000); zeros(1, 1000); linspace(min(min(Upsampled_Points)), max(max(Upsampled_Points)), 1000)];
+    
+        Long_Axis_Closest_Index = dsearchn(Possible_Z_Axis_Location_Points', Breakthrough_Site_Centroid);
+    
+    % Implementing Centering:
+    
+        Centered_Upsampled_Points = Upsampled_Points - Possible_Z_Axis_Location_Points(:, Long_Axis_Closest_Index)';
+        
+        Centered_Activated_Electrode_X_Location = Activated_Electrode_X_Location - Possible_Z_Axis_Location_Points(1, Long_Axis_Closest_Index); 
+        Centered_Activated_Electrode_Y_Location = Activated_Electrode_Y_Location - Possible_Z_Axis_Location_Points(2, Long_Axis_Closest_Index);
+        Centered_Activated_Electrode_Z_Location = Activated_Electrode_Z_Location - Possible_Z_Axis_Location_Points(3, Long_Axis_Closest_Index);
+        
+        Centered_Breakthrough_Site_Centroid = Breakthrough_Site_Centroid - Possible_Z_Axis_Location_Points(:, Long_Axis_Closest_Index)';
+
+        % Plot to Validate the Results:
             
+            figure(3);
+            
+                hold on;
+                
+                    pcshow(Centered_Upsampled_Points, 'w');
+                    
+                    scatter3(Centered_Activated_Electrode_X_Location, Centered_Activated_Electrode_Y_Location, Centered_Activated_Electrode_Z_Location, 'or')
+                
+                hold off;
+        
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Script to "Fit" A Global Plane to Breakthrough Site:
 
-    % Functions: Fits a Vector from the Sock Centroid to the Breakthrough Site Centroid and Rotates to the Nearest Axis.
+    % Original Axis Vectors (X, Y and Z):
     
-    [Global_Projected_Points, Implemented_Points] = Global_Plane_Fitting_Function(Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location);
-    
-    % Plot to Validate Results:
-    
-        figure(3);
+        Centered_Breakthrough_Site_Points = [Centered_Activated_Electrode_X_Location, Centered_Activated_Electrode_Y_Location, Centered_Activated_Electrode_Z_Location];
+
+        Origin_X_Vector = [1; 0; 0]; 
+        Origin_Y_Vector = [0; 1; 0]; 
+        Origin_Z_Vector = [0; 0; 1]; 
         
-            hold on;
+        Rotate_to_X_Axis_Values = vrrotvec(Centered_Breakthrough_Site_Centroid, Origin_X_Vector);
+
+        Rotate_to_X_Axis_Matrix = vrrotvec2mat(Rotate_to_X_Axis_Values);
+
+        Rotated_Breakthrough_Site_Points = Centered_Breakthrough_Site_Points * Rotate_to_X_Axis_Matrix';
+
+        Rotated_Upsampled_Points = Centered_Upsampled_Points * Rotate_to_X_Axis_Matrix';
+        
+        Global_Projected_Points = Rotated_Breakthrough_Site_Points(:, 2:3);
+        
+        % Plot to Validate the Results:
+        
+            figure(4);
             
-                scatter(Global_Projected_Points(:, 1), Global_Projected_Points(:, 2), 'k');
+                hold on;
                 
-                % If Statements to Determine Axis System:
-                
-                    % Horizontal Axis:
-                
-                        if Implemented_Points(1, 1) == 1
-
-                            xlabel('X-Axis');
-
-                        elseif Implemented_Points(1, 1) == 2
-
-                            xlabel('Y-Axis');
-
-                        elseif Implemented_Points(1, 1) == 3
-
-                            xlabel('Z-Axis');
-
-                        end
-                        
-                    % Vertical Axis:
+                    pcshow(Rotated_Upsampled_Points, 'w');
                     
-                        if Implemented_Points(1, 2) == 1
-
-                            ylabel('X-Axis');
-
-                        elseif Implemented_Points(1, 2) == 2
-
-                            ylabel('Y-Axis');
-
-                        elseif Implemented_Points(1, 2) == 3
-
-                            ylabel('Z-Axis');
-
-                        end
-                        
-            hold off;
+                    scatter3(Rotated_Breakthrough_Site_Points(:, 1), Rotated_Breakthrough_Site_Points(:, 2), Rotated_Breakthrough_Site_Points(:, 3), 'r');
+                
+                hold off;
                 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -152,7 +156,7 @@ clear; clc; close all;
 
                 else
 
-                    figure(4)
+                    figure(5)
 
                         hold on;
 

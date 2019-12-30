@@ -134,250 +134,55 @@ tic
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Script to Determine the Earliest Breakthrough Site Point for All Beats in One Run and Take Average:
+% Find the Designated Number of Centroid Points Near the Point of Interest:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    Desired_Index = zeros(Number_of_Centroid_Points, 1);
 
-    % Determine How Many Beats are Present for the Given Run:
+    Adjusted_DTI_Element_Centroid = DTI_Element_Centroid;
 
-        % Use Try-Catch to See What Files MATLAB Can/Can't Find:
-
-            Determine_Number_of_Beats_Matrix = zeros(25,1);
-
-            for First_Index = 1:25
-
-                try
-
-                    Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(First_Index),'-cs.mat'));
-
-                    Determine_Number_of_Beats_Matrix(First_Index,1) = 1;
-
-                catch
-
-                    Determine_Number_of_Beats_Matrix(First_Index,1) = 0;
-
-                end
-
-            end
-
-        % Determine Number of Beats per Run:
-
-            Number_of_Beats_per_Run = sum(Determine_Number_of_Beats_Matrix) + 1; % The Additionally One is for the Beat I Fiducialized in PFEIFER - It has a Different File Format than the Others
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    % Go Through All of the Beats and Determine the Breakthrough Site Centroid for Each:
-   
-        for First_Index = 1:Number_of_Beats_per_Run
-
-            % Load in Time Signal Again:
-            
-                if First_Index < Number_of_Beats_per_Run
-
-                    Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(First_Index),'-cs.mat'));
-
-                        ECG_Signal = Time_Signal.ts.potvals;
-
-                elseif First_Index == Number_of_Beats_per_Run
-
-                    Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Experimental-Data/PFEIFER-Processed-Data/Run', Number_of_Zeros, num2str(Run_Number), '-cs.mat'));
-
-                        ECG_Signal = Time_Signal.ts.potvals;
-
-                end
-                 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                    
-            % Calculate the Activation Times:
-
-                % From File Obtain the Fiducials:
-
-                    Fiducial_Structure = Time_Signal.ts.fids; % Load the Fiducials
-                    Fiducial_Types = [Fiducial_Structure.type]; 
-
-                    % QRS On:
-
-                        QRS_On_Fiducial = find(Fiducial_Types == 2); % 2 is QRS on 
-                        QRS_On_Time = Fiducial_Structure(QRS_On_Fiducial);
-                        QRS_On_Time = getfield(QRS_On_Time, 'value'); % Get QRS On Value
-
-                    % QRS Off:
-
-                        QRS_Off_Fiducial = find(Fiducial_Types == 4); % 4 is QRS off
-                        QRS_Off_Time = Fiducial_Structure(QRS_Off_Fiducial);
-                        QRS_Off_Time = getfield(QRS_Off_Time, 'value'); % Get QRS Off Values
-
-                % Implement Function from PEFIER Pull Out:
-
-                    Activation_Time = Calculate_Activation_Time_PFEIFER_Pullout(ECG_Signal, QRS_On_Time, (QRS_Off_Time + 5));
-
-                % Overall Activation Time:
-
-                    Overall_Activation_Times = Activation_Time - QRS_On_Time;
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-            % Laplacian Interpolate Over Bad Leads:
-
-                Bad_Lead_Value = find(Bad_Leads == 1);
-
-                % Create Vector Containing Activation Times for Only Good Leads:
-
-                    Zeroed_Activation_Times = Overall_Activation_Times;
-                    Zeroed_Activation_Times(Bad_Lead_Value) = 0;
-
-                % Apply Mapping Matrix Obtained from SCIRun:
-
-                    % Note: Format: Mapping_Matrix (All X Good) * Good Leads (Good X 1) = Interpolated (All X 1).
-
-                        Interpolated_Activation_Times = Mapping_Matrix * Zeroed_Activation_Times;
-                            Interpolated_Activation_Times = Interpolated_Activation_Times';
-                            
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
-             % Script to Up Sample Sock Using Barycentric Coordinates:
-             
-                [Upsampled_Points, Upsampled_Interpolated_Activation_Times] = Barycentricly_Upsample_Sock_Function(Sock_Points, Sock_Faces, Interpolated_Activation_Times, Barycentric_Grid_Resolution);
-            
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
-            % Script to Determine Point with the Earliest Activation:
-            
-                Breakthrough_Site_Points_of_Interest(First_Index, :) = Upsampled_Points(find(Upsampled_Interpolated_Activation_Times == min(Upsampled_Interpolated_Activation_Times)), :);
-                
-                clear Upsampled_Points Upsampled_Interpolated_Activation_Times Interpolated_Activation_Times Zeroed_Activation_Times Bad_Lead_Value Overall_Activation_Times Activation_Time QRS_Off_Time QRS_Off_Fiducial QRS_On_Time QRS_On_Fiducial Fiducial_Types Fiducial_Structure ECG_Signal Time_Signal
-                
-        end
-                
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
-% Calculate the Average of the Breakthrough Site Points:
-
-    Average_Breakthrough_Site_Points_of_Interest = [mean(Breakthrough_Site_Points_of_Interest(:, 1)); mean(Breakthrough_Site_Points_of_Interest(:, 2)); mean(Breakthrough_Site_Points_of_Interest(:, 3))];
-    STD_Breakthrough_Site_Points_of_Interest = [std(Breakthrough_Site_Points_of_Interest(:, 1)); std(Breakthrough_Site_Points_of_Interest(:, 2)); std(Breakthrough_Site_Points_of_Interest(:, 3))];
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
-% Script to Create the Fiber Mask and Pull Desired Indicies:
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    % Calculate the Centroid of Each CARP Element:
+    for First_Index = 1:Number_of_Centroid_Points
+        
+        Closest_Position_Index = dsearchn(Adjusted_DTI_Element_Centroid, Coordinate_of_Interest);
+        
+        Adjusted_DTI_Element_Centroid(Closest_Position_Index, :) = Adjusted_DTI_Element_Centroid(Closest_Position_Index, :) * 5000;
+        
+        Desired_Index(First_Index, 1) = Closest_Position_Index;
+          
+    end
     
-        Element_Centroid = zeros(size(Elements, 1), 3);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-            for First_Index = 1:size(Elements, 1)
+% Calculate the Centroid of Each CARP Element:
 
-                Temporary_Element_Points = Elements(First_Index, 2:5);
+    CARP_Element_Centroid = zeros(size(Elements, 1), 3);
 
-                Temporary_Points = Points(Temporary_Element_Points, :);
+        for First_Index = 1:size(Elements, 1)
 
-                Element_Centroid(First_Index, 1) = mean(Temporary_Points(:, 1));
-                Element_Centroid(First_Index, 2) = mean(Temporary_Points(:, 2));
-                Element_Centroid(First_Index, 3) = mean(Temporary_Points(:, 3));
+            Temporary_Element_Points = Elements(First_Index, 2:5);
 
-            end
+            Temporary_Points = Points(Temporary_Element_Points, :);
+
+            CARP_Element_Centroid(First_Index, 1) = mean(Temporary_Points(:, 1));
+            CARP_Element_Centroid(First_Index, 2) = mean(Temporary_Points(:, 2));
+            CARP_Element_Centroid(First_Index, 3) = mean(Temporary_Points(:, 3));
+
+        end
             
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
-    % Find the Designated Number of Centroid Points Near the Point of Interest:
+% Calcualte the Fiber Angle for the Designated Number of Points:
 
-        Stimulation_Site_Index_Values = zeros(Number_of_Centroid_Points, 1);
-
-        Adjusted_Element_Centroid = Element_Centroid;
-
-        for First_Index = 1:Number_of_Centroid_Points
-
-            Closest_Position_Index = dsearchn(Adjusted_Element_Centroid, Coordinate_of_Interest);
-
-            Adjusted_Element_Centroid(Closest_Position_Index, :) = Adjusted_Element_Centroid(Closest_Position_Index, :) * 5000;
-
-            Stimulation_Site_Index_Values(First_Index, 1) = Closest_Position_Index;
-
-        end
-        
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    % Take the Average of the Determined Points and Use as Stimulation Site:
-
-        Stimulation_Site(1, 1) = mean(Element_Centroid(Stimulation_Site_Index_Values, 1));
-        Stimulation_Site(1, 2) = mean(Element_Centroid(Stimulation_Site_Index_Values, 2));
-        Stimulation_Site(1, 3) = mean(Element_Centroid(Stimulation_Site_Index_Values, 3));
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    % Rotate the Heart so that the Two Points - Breakthrough Site and Simulationg Site - Correspond to the Z-Axis:
-
-        % Center the Sock around the Stimulation_Site:
-
-            Centered_Element_Centroid = Element_Centroid - Stimulation_Site;
-            Centered_Average_Breakthrough_Site_Points_of_Interest = Average_Breakthrough_Site_Points_of_Interest' - Stimulation_Site;
-            Centered_DTI_Element_Centroid = DTI_Element_Centroid - Stimulation_Site;
-            
-        % Create a Vector to the Two Points:
-
-            Cylinder_Vector = Centered_Average_Breakthrough_Site_Points_of_Interest';
-            Z_Axis_Vector = [0; 0; 1];
-
-        % Rotate the Vector to be at the Z - Axis:
-
-            Rotate_to_Z_Axis_Values = vrrotvec(Cylinder_Vector, Z_Axis_Vector);
-            Rotation_Matrix = vrrotvec2mat(Rotate_to_Z_Axis_Values);
-
-            Rotated_Centered_Element_Centroid = Centered_Element_Centroid * Rotation_Matrix';
-            Rotated_Centered_Heart_Surface_Point = Centered_Average_Breakthrough_Site_Points_of_Interest * Rotation_Matrix';
-            Rotated_Centered_DTI_Fiber_Points = Centered_DTI_Element_Centroid * Rotation_Matrix';
-            
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    % Create Cylinder and Include Desired Points:
-
-        % Cylinder Creation:
-
-            Cylinder_Height = Rotated_Centered_Heart_Surface_Point(1, 3);
-
-        % Point Inclusion:
-
-            Region_of_Interest = [(-Cylinder_Radius/2), (Cylinder_Radius/2), (-Cylinder_Radius/2), (Cylinder_Radius/2), 0, Cylinder_Height];
-
-            Rotated_Centered_Element_Centroid_Point_Cloud = pointCloud(Rotated_Centered_Element_Centroid);
-            Rotated_Centered_DTI_Fiber_Points_Point_Cloud = pointCloud(Rotated_Centered_DTI_Fiber_Points);
-            
-            Cylinder_Indicies_Simulation = findPointsInROI(Rotated_Centered_Element_Centroid_Point_Cloud, Region_of_Interest);
-            Cylinder_Indicies_Experimental = findPointsInROI(Rotated_Centered_DTI_Fiber_Points_Point_Cloud, Region_of_Interest);
-
-            Element_Points_of_Interest_Simulation = Element_Centroid(Cylinder_Indicies_Simulation, :);
-            Element_Points_of_Interest_Experimental = DTI_Element_Centroid(Cylinder_Indicies_Experimental, :);
-            
-        % Plot to Validate the Results:
-        
-            figure(1);
-            
-                hold on;
-                
-                    pcshow(Element_Centroid, 'w');
-                    
-                    pcshow(Element_Points_of_Interest_Simulation, 'r');
-                    pcshow(Element_Points_of_Interest_Experimental, 'b');
-                    
-                hold off;
-            
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Script to Calcualte the Fiber Angle for Each of the Determined Vectors:
-
-    Imbrication_Angle = zeros(size(Cylinder_Indicies_Experimental, 1), 1);
-    Fiber_Angle = zeros(size(Cylinder_Indicies_Experimental, 1), 1);
+    Fiber_Angle = zeros(size(Number_of_Centroid_Points, 1), 1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Go Through Each Fiber Individually:
     
-        for First_Index = 1:size(Element_Points_of_Interest_Experimental, 1)
+        for First_Index = 1:Number_of_Centroid_Points
             
-            Temporary_Index = Cylinder_Indicies_Experimental(First_Index, 1);
+            Temporary_Index = Desired_Index(First_Index, 1);
             
-            Temporary_DTI_Point = Element_Points_of_Interest_Experimental(First_Index, :);
+            Temporary_DTI_Point = DTI_Element_Centroid(Temporary_Index, :);
             
             Temporary_DTI_Vector = DTI_Fiber_Vectors(:, Temporary_Index);
             
@@ -687,47 +492,16 @@ tic
 
                         end
                         
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-             
-% %             % Plot to Validate the Results:
-% % 
-% %                 figure(4);
-% % 
-% %                     hold on;
-% % 
-% %                         surf(Plane_X, Plane_Y, Plane_Z, 'EdgeColor', 'none', 'FaceColor', 'y');
-% % 
-% %                         scatter3(Anchor_Plane_Point(1), Anchor_Plane_Point(2), Anchor_Plane_Point(3), '*b');
-% % 
-% %                         quiver3(Anchor_Plane_Point(1), Anchor_Plane_Point(2), Anchor_Plane_Point(3), Temporary_DTI_Vector(1), Temporary_DTI_Vector(2), Temporary_DTI_Vector(3), 'r');
-% % 
-% %                         quiver3(Anchor_Plane_Point(1), Anchor_Plane_Point(2), Anchor_Plane_Point(3), Projected_Fiber_Vector(1), Projected_Fiber_Vector(2), Projected_Fiber_Vector(3), 'b');
-% % 
-% %                         quiver3(Anchor_Plane_Point(1), Anchor_Plane_Point(2), Anchor_Plane_Point(3), Projected_Z_Unit_Vector(1), Projected_Z_Unit_Vector(2), Projected_Z_Unit_Vector(3), 'g');
-% % 
-% %                         quiver3(Anchor_Plane_Point(1), Anchor_Plane_Point(2), Anchor_Plane_Point(3), Plane_Normal_Unit(1), Plane_Normal_Unit(2), Plane_Normal_Unit(3), 'm');
-% % 
-% %                         quiver3(Anchor_Plane_Point(1), Anchor_Plane_Point(2), Anchor_Plane_Point(3), Horizontal_Plane_Vector(1), Horizontal_Plane_Vector(2), Horizontal_Plane_Vector(3), 'c');
-% % 
-% %                         legend('Fitted Plane', 'Point of Interest', 'Original Fiber Vector', 'Projected Fiber Vector', 'Projected Unit Z', 'Plane Normal', 'Projected Horizontal');
-% % 
-% %                         xlabel('X-Axis');
-% %                         ylabel('Y-Axis');
-% %                         zlabel('Z-Axis');
-% % 
-% %                     hold off;
-
         end
+                        
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Calcualte the Average:
+
+    Mean_Fiber_Angle = mean(Fiber_Angle);
+    STD_Fiber_Angle = std(Fiber_Angle);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Script to Calcualte the Average Fiber Angle:
 
-    [Mean_Fiber_Angle, STD_Fiber_Angle] = Calculate_Average_of_Fiber_Angles_Function(Fiber_Angle, Element_Points_of_Interest_Experimental, Stimulation_Site, Average_Breakthrough_Site_Points_of_Interest', Division_Value);
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-toc
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
+    

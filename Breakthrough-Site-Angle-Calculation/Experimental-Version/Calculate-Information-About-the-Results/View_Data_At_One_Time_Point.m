@@ -29,15 +29,13 @@ clear; clc; close all;
             Area_Mean(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Area_Mean;
             Axis_Ratio_Mean(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Axis_Ratio_Mean;
             Angle_for_Long_Axis_Mean(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Angle_for_Long_Axis_Mean;
-%             Angle_for_Short_Axis_Mean(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Angle_for_Short_Axis_Mean;
-        
+
         % Grab STDs:
         
             Area_STDs(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Area_STD;
             Axis_Ratio_STDs(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Axis_Ratio_STD;
             Angle_for_Long_Axis_STDs(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Angle_for_Long_Axis_STD;
-%             Angle_for_Short_Axis_STDs(First_Index, 1) = Results.Percent(Time_Points).Run(First_Index).Angle_for_Short_Axis_STD;
-             
+
     end
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

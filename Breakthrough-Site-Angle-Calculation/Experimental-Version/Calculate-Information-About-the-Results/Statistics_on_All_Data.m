@@ -9,7 +9,7 @@ clear; clc; close all;
 
 % Script to Load in the Data:
 
-    Results = load('/Users/rupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Experimental-Version/Results/ReRePFEIFER_14_10_27_Per_Act_Ellipse_Long_Axis_New_Global_All.mat');
+    Results = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Experimental-Version/Results/14-10-27-Original-Results-No-Cluster.mat');
         Results = Results.Ellipse_Information;
         
         for First_Index = 1:size(Results.Angle_for_Long_Axis.Percent, 1)
@@ -46,16 +46,6 @@ clear; clc; close all;
                     Statistics.Percent(First_Index, 1).Run(Second_Index, 1).Angle_for_Long_Axis_Mean = Temporary_Angle_for_Long_Axis_Mean;
                     Statistics.Percent(First_Index, 1).Run(Second_Index, 1).Angle_for_Long_Axis_STD = Temporary_Angle_for_Long_Axis_STD;
 
-% %                 % For Short Axis Angle:
-% %                 
-% %                     Temporary_Angle_for_Short_Axis = Results.Angle_for_Short_Axis.Percent(First_Index).Run(Second_Index).Beat;
-% %                     
-% %                     Temporary_Angle_for_Short_Axis_Mean = mean(Temporary_Angle_for_Short_Axis);
-% %                     Temporary_Angle_for_Short_Axis_STD = std(Temporary_Angle_for_Short_Axis);
-% %                     
-% %                     Statistics.Percent(First_Index, 1).Run(Second_Index, 1).Angle_for_Short_Axis_Mean = Temporary_Angle_for_Short_Axis_Mean;
-% %                     Statistics.Percent(First_Index, 1).Run(Second_Index, 1).Angle_for_Short_Axis_STD = Temporary_Angle_for_Short_Axis_STD;
-                    
             end
             
         end

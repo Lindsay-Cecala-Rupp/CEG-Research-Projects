@@ -11,24 +11,23 @@ clear; clc; close all;
 
     % Magic Numbers:
     
-        Time_Points = 3;
+        Time_Point = 3;
         
     % Data:
 
-        Results = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Simulated-Version/Results/14-10-27-Ellipse-Results-Long-Axis-Implementation.mat');
-            Results = Results.Compiled_Ellipse_Information;
+        Results = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Simulated-Version/Results/14-10-27-Original-Results.mat');
+            Results = Results.Ellipse_Information;
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Script to Grad Data at the Specified Time Point:
 
-    for First_Index = 1:size(Results.Run, 2)
+    for First_Index = 1:size(Results.Run, 1)
         
-        Area(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Area;
-        Axis_Ratio(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Axis_Ratio;
-        Angle_for_Long_Axis(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Angle_for_Long_Axis;
-%         Angle_for_Short_Axis(First_Index, 1) = Results.Run(First_Index).Percent(Time_Points).Angle_for_Short_Axis;
-        
+        Area(First_Index, 1) = Results.Run(First_Index).Percent(Time_Point).Area;
+        Axis_Ratio(First_Index, 1) = Results.Run(First_Index).Percent(Time_Point).Axis_Ratio;
+        Angle_for_Long_Axis(First_Index, 1) = Results.Run(First_Index).Percent(Time_Point).Angle_for_Long_Axis;
+     
     end
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -56,12 +55,5 @@ clear; clc; close all;
                 bar(Angle_for_Long_Axis)
                 
                 title('Long Axis Angle of the Ellipse')
-                
-%             subplot(2, 2, 4)
-%             
-%                 bar(Angle_for_Short_Axis)
-%                 
-%                 title('Short Axis Angle of the Ellipse')
-%                 
+       
         hold off;
-
