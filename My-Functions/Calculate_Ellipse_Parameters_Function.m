@@ -1,4 +1,4 @@
-function [Ellipse_Information] = Calculate_Ellipse_Parameters_Function_V3(Ellipse_Structure, Horizontal_Line, Vertical_Line)
+function [Ellipse_Information] = Calculate_Ellipse_Parameters_Function(Ellipse_Structure, Horizontal_Line, Vertical_Line)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -57,7 +57,7 @@ tic
 
                         try
         
-                            Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Experimental-Data/Signals/PFEIFER-Processed-Signals-Option-One/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Second_Index),'-cs.mat'));
+                            Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Experimental-Data/Signals/PFEIFER-Processed-Signals-Option-Three/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Second_Index),'-cs.mat'));
 
                             Determine_Number_of_Beats_Matrix(Second_Index,1) = 1;
 
@@ -95,12 +95,12 @@ tic
                     % Load in Time Signal Again:
                         if Third_Index < Number_of_Beats_per_Run
 
-                            Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Experimental-Data/Signals/PFEIFER-Processed-Signals-Option-One/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Third_Index),'-cs.mat'));
+                            Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Experimental-Data/Signals/PFEIFER-Processed-Signals-Option-Three/Run', Number_of_Zeros, num2str(Run_Number), '-b', num2str(Third_Index),'-cs.mat'));
                                 ECG_Signal = Time_Signal.ts.potvals;
 
                         elseif Third_Index == Number_of_Beats_per_Run
 
-                            Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Experimental-Data/Signals/PFEIFER-Processed-Signals-Option-One/Run', Number_of_Zeros, num2str(Run_Number), '-cs.mat'));   
+                            Time_Signal = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Experimental-Data/Signals/PFEIFER-Processed-Signals-Option-Three/Run', Number_of_Zeros, num2str(Run_Number), '-cs.mat'));   
                                 ECG_Signal = Time_Signal.ts.potvals;
 
                         end
@@ -158,12 +158,12 @@ tic
 
                         % Laplacian Interpolation:
                         
-                            Bad_Leads = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolation/Bad-Lead-Mask/14_10_27_Sock_Bad_Leads_Mask.mat');
+                            Bad_Leads = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Laplacian-Interpolation/Bad-Lead-Mask/14_10_27_Sock_Bad_Leads_Mask.mat');
                                 Bad_Leads = Bad_Leads.Bad_Lead_Mask;
 
                             Bad_Lead_Value = find(Bad_Leads == 1);
 
-                            Mapping_Matrix = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Laplacian-Interpolation/Results/14-10-27-Sock-Mapping-Matrix.mat');
+                            Mapping_Matrix = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Laplacian-Interpolation/Results/14-10-27-Sock-Mapping-Matrix.mat');
                                 Mapping_Matrix = Mapping_Matrix.scirunmatrix;
 
                         % Create Vector Containing Activation Times for Only Good Leads:

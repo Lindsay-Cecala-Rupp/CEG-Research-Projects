@@ -45,11 +45,12 @@ clear; clc; close all;
             % Elements = readmatrix('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/Simulation-Model-Information/model/Adjusted-Files-for-Me/14-10-27_Carp_mesh.biv.elem.txt');
                 Elements = Elements + 1; % To Make One Based Nodes that Make up "Face"
 
+            Heart_Surface_Data_Two = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Simulated-Data/LVFW-Depth-Protocol/CARP-Data-on-Heart-Surface/14-10-27-Electrodes', num2str(Electrode_Location), '-Data-on-Surface.mat'));
             Heart_Surface_Data = load(strcat('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Simulated-Data/Geometry-Files/14-10-27-CARP-Epicardial-Surface-Electrodes', num2str(Electrode_Location), '.mat'));
             % Heart_Surface = load('/Users/rupp/Documents/Experiment-14-10-27/Simulation-Data/14-10-27-CARP-Heart-Surface.mat');
-                Heart_Surface = Heart_Surface_Data.scirunfield.node'; % Scaling is Different 
+                Heart_Surface = Heart_Surface_Data.scirunfield.node'; 
                 Activation_Times = Heart_Surface_Data.scirunfield.field;
-                
+ %%               
         % UVC Model:
                 
             UVC_RHO = load('/Users/lindsayrupp/Documents/CEG-Research/Pacing-Experiment-Data/14-10-27/Simulated-Data/14-10-27-CARP-Model/UVC/COORDS_RHO.pts');

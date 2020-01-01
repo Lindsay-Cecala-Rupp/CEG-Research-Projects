@@ -3671,7 +3671,7 @@
 			</item>
 		</modules>
 		<connections class_id="13" tracking_level="0" version="0">
-			<count>23</count>
+			<count>22</count>
 			<item_version>0</item_version>
 			<item class_id="14" tracking_level="0" version="0">
 				<moduleId1_>CreateStandardColorMap:1</moduleId1_>
@@ -3730,18 +3730,6 @@
 				<moduleId2_>ShowField:8</moduleId2_>
 				<port2_>
 					<name>Field</name>
-					<id>0</id>
-				</port2_>
-			</item>
-			<item>
-				<moduleId1_>MapFieldDataFromSourceToDestination:1</moduleId1_>
-				<port1_>
-					<name>Remapped_Destination</name>
-					<id>0</id>
-				</port1_>
-				<moduleId2_>WriteField:3</moduleId2_>
-				<port2_>
-					<name>FieldToWrite</name>
 					<id>0</id>
 				</port2_>
 			</item>
