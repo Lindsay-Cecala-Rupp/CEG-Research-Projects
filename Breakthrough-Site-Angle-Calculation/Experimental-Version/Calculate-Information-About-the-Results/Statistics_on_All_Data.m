@@ -9,7 +9,7 @@ clear; clc; close all;
 
 % Script to Load in the Data:
 
-    Results = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Experimental-Version/Results/14-10-27-Original-Results-No-Cluster.mat');
+    Results = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Experimental-Version/Results/14-10-27-Original-Results-without-Clustering.mat');
         Results = Results.Ellipse_Information;
         
         for First_Index = 1:size(Results.Angle_for_Long_Axis.Percent, 1)
@@ -49,5 +49,4 @@ clear; clc; close all;
             end
             
         end
-    
-    
+   

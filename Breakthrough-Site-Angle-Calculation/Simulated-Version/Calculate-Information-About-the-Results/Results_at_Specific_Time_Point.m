@@ -15,7 +15,7 @@ clear; clc; close all;
         
     % Data:
 
-        Results = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Simulated-Version/Results/14-10-27-Original-Results.mat');
+        Results = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Simulated-Version/Results/14-10-27-Original-Results-without-Long-Axis.mat');
             Results = Results.Ellipse_Information;
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -32,17 +32,29 @@ clear; clc; close all;
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Round Data for Visualization:
+
+    Area_Rounded = round(Area, 0);
+    Axis_Ratio_Rounded = round(Axis_Ratio, 2);
+    Angle_for_Long_Axis_Rounded = round(Angle_for_Long_Axis, 2);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Script to Plot the Data:
 
-    figure(2);
+    figure('Renderer', 'painters', 'Position', [10 10 900 600])
     
         hold on;
-        
+
             subplot(2, 2, 1)
             
                 bar(Area)
                 
                 title('Area of the Ellipse')
+                
+                text(1:length(Area_Rounded), Area, num2str(Area_Rounded), 'vert', 'bottom', 'horiz', 'center');
+                
+                %ylim([0, 1300]);
                 
             subplot(2, 2, 2)
             
@@ -50,11 +62,20 @@ clear; clc; close all;
                 
                 title('Axis Ratio of the Ellipse')
                 
+                text(1:length(Axis_Ratio_Rounded), Axis_Ratio, num2str(Axis_Ratio_Rounded), 'vert', 'bottom', 'horiz', 'center');
+                
+                ylim([0, 0.8]);
+                
             subplot(2, 2, 3)
             
                 bar(Angle_for_Long_Axis)
                 
                 title('Long Axis Angle of the Ellipse')
+                
+                text(1, Angle_for_Long_Axis(1), num2str(Angle_for_Long_Axis_Rounded(1)), 'vert', 'bottom', 'horiz', 'center'); 
+                text(2:9, Angle_for_Long_Axis(2:9), num2str(Angle_for_Long_Axis_Rounded(2:9)), 'vert', 'top', 'horiz', 'center'); 
+                
+                %ylim([-21, 35]);
        
         hold off;
         
