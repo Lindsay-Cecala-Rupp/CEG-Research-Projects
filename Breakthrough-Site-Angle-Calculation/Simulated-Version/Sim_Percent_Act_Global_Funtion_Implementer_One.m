@@ -31,22 +31,6 @@ clear; clc; close all;
     % Functions: Create Barycentric Coordinates and Determines their Corresponding Activation Time.
 
     [Upsampled_Points, Upsampled_Activation_Times] = Barycentricly_Upsample_Sock_Function(Points, Faces, Activation_Times, Grid_Resolution);
-    
-    % Plot to Validate Results:
-    
-        figure(1);
-        
-            hold on;
-            
-                plot3(Upsampled_Points(:, 1), Upsampled_Points(:, 2), Upsampled_Points(:, 3), '.k')
-                
-                xlabel('X-Axis');
-                ylabel('Y-Axis');
-                zlabel('Z-Axis');
-                
-                title('Barycentricly UpSampled Sock');
-                
-            hold off;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -74,7 +58,9 @@ clear; clc; close all;
         
             hold on;
             
-                scatter3(Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location, 'k');
+                pcshow(Centered_Upsampled_Points, 'w');
+            
+                scatter3(Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location, 'r');
                 
                 xlabel('X-Axis');
                 ylabel('Y-Axis');
@@ -90,7 +76,9 @@ clear; clc; close all;
 
     % Functions: Fits a Vector from the Sock Centroid to the Breakthrough Site Centroid and Rotates to the Nearest Axis.
     
-    [Global_Projected_Points, Implemented_Points] = Global_Plane_Fitting_Function(Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location);
+    [Global_Projected_Points, Implemented_Points, Rotate_to_Axis_Matrix, All_Global_Projected_Points] = Global_Plane_Fitting_Function(Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location);
+    
+    Rotated_Centered_Upsampled_Points = Centered_Upsampled_Points * Rotate_to_Axis_Matrix';
     
     % Plot to Validate Results:
     
@@ -98,7 +86,9 @@ clear; clc; close all;
         
             hold on;
             
-                scatter(Global_Projected_Points(:, 1), Global_Projected_Points(:, 2), 'k');
+                pcshow(Rotated_Centered_Upsampled_Points, 'w');
+            
+                scatter3(All_Global_Projected_Points(:, 1), All_Global_Projected_Points(:, 2), All_Global_Projected_Points(:, 3), 'b');
                 
                 % If Statements to Determine Axis System:
                 
@@ -133,6 +123,10 @@ clear; clc; close all;
                             ylabel('Z-Axis');
 
                         end
+                        
+                        xlabel('X');
+                        ylabel('Y');
+                        zlabel('Z');
                         
             hold off;
                 

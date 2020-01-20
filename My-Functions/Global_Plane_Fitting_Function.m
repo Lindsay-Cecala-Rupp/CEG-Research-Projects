@@ -1,4 +1,4 @@
-function [Global_Projected_Points, Implemented_Points, Rotate_to_Axis_Matrix] = Global_Plane_Fitting_Function(Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location)
+function [Global_Projected_Points, Implemented_Points, Rotate_to_Axis_Matrix, All_Global_Projected_Points] = Global_Plane_Fitting_Function(Activated_Electrode_X_Location, Activated_Electrode_Y_Location, Activated_Electrode_Z_Location)
 
     % Determine the Center of the Breakthrough Site:
 

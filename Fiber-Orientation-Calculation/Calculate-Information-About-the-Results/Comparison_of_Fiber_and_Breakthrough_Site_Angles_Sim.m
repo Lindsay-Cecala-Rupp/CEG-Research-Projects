@@ -19,10 +19,10 @@ tic
 
 % Load in Data:
 
-    Breakthrough_Site_Angle = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Simulated-Version/Results/14-10-27-Original-Results.mat');
+    Breakthrough_Site_Angle = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Breakthrough-Site-Angle-Calculation/Simulated-Version/Results/14-10-27-Original-Results-without-Long-Axis.mat');
             Breakthrough_Site_Angle = Breakthrough_Site_Angle.Ellipse_Information;
             
-    Fiber_Angle_Results = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Fiber-Orientation-Calculation/Simulated-Version/Results/14-10-27-Original-Results/14-10-27-Average-Angle-Results_Mean.mat');
+    Fiber_Angle_Results = load('/Users/lindsayrupp/Documents/GitHub/CEG-Research-Projects/Fiber-Orientation-Calculation/Simulated-Version/Results/14-10-27-Original-Results-without-Long-Axis/14-10-27-Average-Angle-Results_Mean.mat');
         Fiber_Angle_Results = Fiber_Angle_Results.Mean_Angle;
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,7 +66,7 @@ tic
             %text(((1:5) + 0.15), Rounded_Fiber_Angle_Results(1:5), num2str(Rounded_Fiber_Angle_Results(1:5)), 'vert', 'bottom', 'horiz', 'center');
             %text(((6:9) + 0.15), Rounded_Fiber_Angle_Results(6:9), num2str(Rounded_Fiber_Angle_Results(6:9)), 'vert', 'top', 'horiz', 'center');
              
-            Bar_Graph_Legend = legend('Breakthrough Site Angle', 'Fiber Angle');
+            Bar_Graph_Legend = legend('Breakthrough Site Angle', 'Average Fiber Angle');
                 
                 Bar_Graph_Legend.Location = 'southwest';
                 
